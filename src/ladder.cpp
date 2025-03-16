@@ -45,6 +45,8 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     ladder_queue.push({begin_word});
     set<string> visited;
     visited.insert(begin_word);
+    if(word_list.find(end_word) == word_list.end()){ return {}; }
+    else if(end_word == begin_word) { return {begin_word}; }
     while(!ladder_queue.empty()){
         vector<string> ladder = ladder_queue.front();
         ladder_queue.pop();
