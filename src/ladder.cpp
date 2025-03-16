@@ -18,7 +18,6 @@ bool edit_distance_within(const string& str1, const std::string& str2, int d){
     int len1 = str1.size();
     int len2 = str2.size();
     if(abs(len2 - len1) > d) { return false; }
-    vector<vector<int>> table(len1 + 1, vector<int>(len2 + 1));
     
     if(len1 == len2){
         int distance = 0;
@@ -92,7 +91,6 @@ void load_words(set<string> & word_list, const string& file_name){
     }
     string word;
     while(in >> word){ word_list.insert(word); }
-    in.close();
 }
 void print_word_ladder(const vector<string>& ladder){
     if(!ladder.empty()){
@@ -109,10 +107,10 @@ void print_word_ladder(const vector<string>& ladder){
 void verify_word_ladder(){
     set<string> word_list;
     load_words(word_list, "words.txt");
-    //my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
-    //my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
-    //my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
-    //my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
+    my_assert(generate_word_ladder("cat", "dog", word_list).size() == 4);
+    my_assert(generate_word_ladder("marty", "curls", word_list).size() == 6);
+    my_assert(generate_word_ladder("code", "data", word_list).size() == 6);
+    my_assert(generate_word_ladder("work", "play", word_list).size() == 6);
     my_assert(generate_word_ladder("sleep", "awake", word_list).size() == 8);
-    //my_assert(generate_word_ladder("car", "cheat", word_list).size() == 4);
+    my_assert(generate_word_ladder("car", "cheat", word_list).size() == 4);
 }
