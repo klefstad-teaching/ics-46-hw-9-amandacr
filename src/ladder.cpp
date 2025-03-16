@@ -35,7 +35,7 @@ bool edit_distance_within(const string& str1, const std::string& str2, int d){
         }
     }
 
-    return table[len1][len2] == d;
+    return table[len1][len2] <= d;
 }
 bool is_adjacent(const string& word1, const string& word2){
     return edit_distance_within(word1, word2, 1);
@@ -75,8 +75,15 @@ void load_words(set<string> & word_list, const string& file_name){
     in.close();
 }
 void print_word_ladder(const vector<string>& ladder){
-    for(string word : ladder){
-        cout << word << " ";
+    if(!ladder.empty()){
+        cout << "Word ladder found: ";
+        for(string word : ladder){
+            cout << word << " ";
+        }
+        cout << endl;
+    }
+    else{
+        cout << "No word ladder found." << endl;
     }
 }
 void verify_word_ladder(){
