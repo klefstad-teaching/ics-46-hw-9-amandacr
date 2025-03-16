@@ -20,23 +20,40 @@ bool edit_distance_within(const string& str1, const std::string& str2, int d){
     if(abs(len2 - len1) > d) { return false; }
     vector<vector<int>> table(len1 + 1, vector<int>(len2 + 1));
     
-    for(int i = 0; i <= len1; ++i){ table[i][0] = i;}
-    for(int j = 0; j <= len2; ++j){ table[0][j] = j;}
-
-    for(int i = 1; i <= len1; ++i){
-        for(int j = 1; j <= len2; ++j){
-            if(str1[i - 1] == str2[j - 1]){
-                table[i][j] = table[i - 1][j - 1];
-            }
-            else{
-                table[i][j] = min({table[i - 1][j] + 1,
-                                    table[i][j - 1] + 1,
-                                    table[i - 1][j - 1] + 1});
+    if(len1 == len2){
+        int distance = 0;
+        for(int i = 0; i < len1; ++i){
+            if(str1[i] != str2[i]){
+                ++distance;
+                if(distance > d){
+                    return false;
+                }
             }
         }
+        return distance <= d;
     }
 
-    return table[len1][len2] <= d;
+    else if(abs(len1 - len2) == 1){
+        const string& longer_word = len1 > len2 ? str1 : str2;
+        const string& shorter_word = len1 < len2 ? str1 : str2;
+
+        int shorter_size = shorter_word.size();
+        int longer_size = longer_word.size();
+        int distance = 0;
+        int i = 0;
+        int j = 0;
+        while(i < shorter_size && j < longer_size){
+            if(shorter_word[i] != longer_word[j]){
+                ++distance;
+                if(distance > d){ return false; }
+                ++j; //move to next char in longer str only
+            }
+            else{ ++i; ++j; }
+        }
+        return distance <= d;
+    }
+
+    return false;
 }
 bool is_adjacent(const string& word1, const string& word2){
     return edit_distance_within(word1, word2, 1);
@@ -47,7 +64,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     set<string> visited;
     visited.insert(begin_word);
     if(word_list.find(end_word) == word_list.end()){ return {}; }
-    else if(end_word == begin_word) { return {begin_word}; }
+    else if(end_word == begin_word) { return {}; }
     while(!ladder_queue.empty()){
         vector<string> ladder = ladder_queue.front();
         ladder_queue.pop();
