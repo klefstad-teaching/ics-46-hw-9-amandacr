@@ -17,16 +17,17 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     priority_queue<pair<int, int>> minHeap;
     minHeap.push({source, 0});
     while(!minHeap.empty()){
-        int u = minHeap.extractVertexWithMinimumWeight().first;
+        int u = minHeap.top().first;
+        minHeap.pop();
         if(visited[u]) continue;
-        visisted[u] = true;
+        visited[u] = true;
         for(Edge e : G[u]){
             int v = e.dst;
             int weight = e.weight;
             if(!visited[v] && distances[u] + weight < distances[v]){
                 distances[v] = distances[u] + weight;
                 previous[v] = u;
-                minHeap.push(v, distances[v]);
+                minHeap.push({v, distances[v]});
             }
         }
     }
