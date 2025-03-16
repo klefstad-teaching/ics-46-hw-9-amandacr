@@ -17,6 +17,7 @@ void error(string word1, string word2, string msg){
 bool edit_distance_within(const string& str1, const std::string& str2, int d){
     int len1 = str1.size();
     int len2 = str2.size();
+    if(abs(len2 - len1) > d) { return false; }
     vector<vector<int>> table(len1 + 1, vector<int>(len2 + 1));
     
     for(int i = 0; i <= len1; ++i){ table[i][0] = i;}
